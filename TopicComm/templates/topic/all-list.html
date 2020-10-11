@@ -1,0 +1,5 @@
+ {% block content %} {% for list in all_topic %}
+<h2>{{list.user}}</h2>
+<h2>{{list.title}}</h2>
+<h2>{{list.created_at}}</h2>
+{% endfor%}{% endblock %}

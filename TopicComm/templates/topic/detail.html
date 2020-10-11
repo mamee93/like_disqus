@@ -1,0 +1,86 @@
+{% extends 'main.html' %}{% load static %} {% block content %}
+<h4>{{topic.user}}</h4>
+<h6>{{topic.title}}</h6>
+<h6>{{topic.content}}</h6>
+<h6>{{topic.created_at}}</h6>
+
+
+
+<div class="comments">
+    <span class="total-comments comments-sort">Comments : {{total_comments}} </span>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="comment-box add-comment">
+            <span class="commenter-pic">
+            <img src="" class="img-fluid">
+    </span>
+            <span class="commenter-name">
+                <input type="hidden" name="comments_id" value="{{comments.id}}" >
+            <input type="hidden" placeholder="Add a public comment" name="Add Comment">
+                {{form }}
+            <button type="submit" class="btn btn-default">Comment</button>
+</span>
+
+        </div>
+    </form>
+    {% for comments in comments %}
+    <div class="comment-box">
+
+        <span class="commenter-pic">
+            <img src="" class="img-fluid">
+          </span>
+        <span class="commenter-name">
+            <a href="#">{{comments.user}}</a> <span class="comment-time">{{comments.created_at}}</span>
+        </span>
+        <p class="comment-txt more">{{comments.comments| safe }} .</p>
+        <div class="comment-meta">
+            <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+            <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button>
+            <div class="  replied reply-box ">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Reply</button></p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        {% for reply in comments.replies.all %}
+                        <span class="commenter-pic">
+                <img src="" class="img-fluid">
+            </span>
+                        <span class="commenter-name">
+                <a href="#">Reply By :: {{reply.user}} </a> <span class="comment-time"> in {{reply.created_at}}</span>
+                        <p class="comment-txt more">{{reply.comments| safe }}</p>
+                        <div class="comment-meta">
+                            <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+                            <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button>
+                            <button class="comment-reply reply-popup"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>
+                        </div>
+                        {% endfor %}
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="comment-box add-comment">
+                                <span class="commenter-pic">
+                            <img src="" class="img-fluid"> </span>
+
+                                <span class="commenter-name">
+                <input type="hidden" name="comments_id" value="{{comments.id}}" >
+                <input type="hidden" placeholder="Add a public comment" name="Add Comment">
+
+                {{form }}
+            <button type="submit" class="btn btn-default">Comment</button>
+                </span>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+
+                </span>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+        {% endblock %}
